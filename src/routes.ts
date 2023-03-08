@@ -12,6 +12,7 @@ routes.post('/login', seasonController.show)
 
 routes.post('/task', checkLogin, taskController.create)
 routes.get('/tasks/:userID', checkLogin, taskController.show)
-routes.put('/tasks', checkLogin, taskController.update)
+routes.put('/tasks/', checkLogin, taskController.update)
+routes.delete('/tasks/:taskID', checkLogin, taskController.delete)
 
 export default routes

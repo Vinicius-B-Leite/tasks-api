@@ -59,6 +59,24 @@ class TaskController {
         return res.json(task)
 
     }
+
+    async delete(req: Request, res: Response) {
+        const { taskID } = req.params
+
+        if (!taskID) throw new Error('Informe um ID de uma tarefa para deletar')
+
+        const taskExist = await prisma.tasks.findFirst({ where: { id: taskID } })
+        if (!taskExist) throw new Error('Informe um id válido')
+
+
+        await prisma.tasks.delete({
+            where: {
+                id: taskID
+            }
+        })
+
+        return res.json({message: 'tarefa deletada'})
+    }
 }
 
 
