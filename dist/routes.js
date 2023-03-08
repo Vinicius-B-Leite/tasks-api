@@ -1,0 +1,15 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const SeassonController_1 = require("./controller/SeassonController");
+const TaskController_1 = require("./controller/TaskController");
+const UserController_1 = require("./controller/UserController");
+const checkLogin_1 = require("./middlleware/checkLogin");
+const routes = (0, express_1.Router)();
+routes.post('/user', UserController_1.userController.create);
+routes.post('/login', SeassonController_1.seasonController.show);
+routes.post('/task', checkLogin_1.checkLogin, TaskController_1.taskController.create);
+routes.get('/tasks/:userID', checkLogin_1.checkLogin, TaskController_1.taskController.show);
+routes.put('/tasks/', checkLogin_1.checkLogin, TaskController_1.taskController.update);
+routes.delete('/tasks/:taskID', checkLogin_1.checkLogin, TaskController_1.taskController.delete);
+exports.default = routes;
