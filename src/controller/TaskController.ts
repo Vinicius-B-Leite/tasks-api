@@ -35,7 +35,7 @@ class TaskController {
     }
 
     async update(req: Request, res: Response) {
-        const { userID, title, description, status, taksID } = req.body
+        const { title, description, status, taksID } = req.body
 
         if (!taksID) throw new Error('Informe o id da tarefa')
 
@@ -43,19 +43,20 @@ class TaskController {
 
         if (!taksExists) throw new Error('Crie uma tarefa antes de a atualizar')
 
+
         const task = await prisma.tasks.update({
             data: {
-                titile: title,
-                description: description,
-                status: status,
-                userID: userID,
+                titile: title || taksExists.titile,
+                description: description || taksExists.description,
+                status: status || taksExists.status,
+                userID: taksExists.userID,
             },
             where: {
                 id: taksID
             }
         })
 
-        //refletir dps sobre a lógica dessa parte
+        return res.json(task)
 
     }
 }
