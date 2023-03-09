@@ -20,14 +20,21 @@ class TaskController {
 
     async show(req: Request, res: Response) {
         const { userID } = req.params
+        const status = req.query.status as string
 
-        const userExists = await prisma.user.findFirst({ where: { id: userID } })
+
+        const userExists = await prisma.user.findFirst({
+            where: {
+                id: userID,
+            }
+        })
 
         if (!userExists) throw new Error('Usuário não existe')
 
         const tasks = await prisma.tasks.findMany({
             where: {
-                userID: userID
+                userID: userID,
+                status: status
             }
         })
 
@@ -75,7 +82,7 @@ class TaskController {
             }
         })
 
-        return res.json({message: 'tarefa deletada'})
+        return res.json({ message: 'tarefa deletada' })
     }
 }
 
